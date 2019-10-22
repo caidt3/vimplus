@@ -3,3 +3,125 @@
 
 " 启动代码对齐线
 " let g:indentLine_enabled = 1
+
+
+" Minimal number of screen lines to keep above or below the cursor.
+set scrolloff=10
+
+nnoremap ; :
+vnoremap ; :
+
+" Shotcut <,-w> for saving the file
+nnoremap <leader>w :w<CR>
+" Shotcut <,-q> for closing the file
+nnoremap <leader>q :q<CR>
+
+" Easier redo
+nnoremap U <c-r>
+
+" Move half page easier
+nnoremap J <c-d>
+nnoremap K <c-u>
+vnoremap J <c-d>
+vnoremap K <c-u>
+
+" 分屏窗口移动
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" Move to the start of line
+nnoremap H ^
+vnoremap H ^
+" Move to the end of line
+nnoremap L $
+vnoremap L $
+
+" Open file in new window
+nnoremap <leader>v :vsplit<Space>
+
+" Quit visual mode
+vnoremap v <Esc>
+
+" Shortcut for :Man command
+nmap <leader>h :Man 3 <cword><CR>
+
+"-------------------------------------------------------------------------------
+" Quiker Replacement
+"-------------------------------------------------------------------------------
+" Name: Replace
+" Description: Quiker replacement in VIM
+" Parameter
+"     confirm：Confirm each substitution?
+"     wholeword：Match whole word?
+"     replace：The string to replace
+function! Replace(confirm, wholeword, replace)
+    let flag = ''
+    if a:confirm
+        let flag .= 'gec'
+    else
+        let flag .= 'ge'
+    endif
+    let search = ''
+    if a:wholeword
+        let search .= '\<' . escape(expand('<cword>'), '/\.*$^~[') . '\>'
+    else
+        let search .= expand('<cword>')
+    endif
+    let replace = escape(a:replace, '/\&~')
+"     execute 'argdo %s/' . search . '/' . replace . '/' . flag . '| update'
+    execute '%s/' . search . '/' . replace . '/' . flag
+endfunction
+" No comfirmation, No whole-word match
+nnoremap <leader>rr :call Replace(0, 0, input('Replace '.expand('<cword>').' with: '))<CR>
+" No comfirmation, Whole-word match
+nnoremap <leader>rw :call Replace(0, 1, input('Replace '.expand('<cword>').' with: '))<CR>
+" Comfirmation, No whole-word match
+nnoremap <leader>rc :call Replace(1, 0, input('Replace '.expand('<cword>').' with: '))<CR>
+" Comfirmation, Whole-word match
+nnoremap <leader>rb :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
+
+" ==== nerdtree
+" Automatically open a NERDTree if no files where specified
+"autocmd vimenter * if !argc() | NERDTree | endif
+autocmd vimenter * if !argc() | NERDTreeToggle | endif
+" Close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+nmap <F2> :NERDTreeToggle<CR>
+
+
+" ==== tagbar
+nnoremap <silent> <F3> :TagbarToggle<cr>
+inoremap <silent> <F3> <esc> :TagbarToggle<cr>
+
+" ==== LeaderF
+nnoremap <leader>m :Leaderf mru<cr>
+nnoremap <leader>s :LeaderfFile ~<cr>
+
+" ==== vim-easymotion
+map <leader><leader>h <Plug>(easymotion-linebackward)
+map <leader><leader>j <Plug>(easymotion-j)
+map <leader><leader>k <Plug>(easymotion-k)
+map <leader><leader>l <Plug>(easymotion-lineforward)
+map <leader><leader>. <Plug>(easymotion-repeat)
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+" map  n <Plug>(easymotion-next)
+" map  N <Plug>(easymotion-prev)
+
+" ==== airline
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+
