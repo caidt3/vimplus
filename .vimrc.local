@@ -47,6 +47,8 @@ vnoremap v <Esc>
 " Shortcut for :Man command
 nmap <leader>h :Man 3 <cword><CR>
 
+"复制当前选中到系统剪切板
+vmap <c-y> "+y
 "-------------------------------------------------------------------------------
 " Quiker Replacement
 "-------------------------------------------------------------------------------
@@ -84,12 +86,15 @@ nnoremap <leader>rb :call Replace(1, 1, input('Replace '.expand('<cword>').' wit
 
 " ==== nerdtree
 " Automatically open a NERDTree if no files where specified
-"autocmd vimenter * if !argc() | NERDTree | endif
-autocmd vimenter * if !argc() | NERDTreeToggle | endif
+" autocmd vimenter * if !argc() | NERDTree | endif
+" autocmd vimenter * if !argc() | NERDTreeToggle | endif
 " Close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 nmap <F2> :NERDTreeToggle<CR>
 
+" === commentary
+nmap <leader>c gcc
+vmap <leader>c gcc
 
 " ==== tagbar
 nnoremap <silent> <F3> :TagbarToggle<cr>
